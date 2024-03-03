@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+  <mongoSettings>
+    <connectionString>mongodb://localhost:27017</connectionString>
+    <databaseName>banglore</databaseName>
+    <collectionName>order</collectionName>
+	  <collectionName1>ordertrace</collectionName1>
+	  <collectionName2>trace</collectionName2>
+
+  </mongoSettings>
+  <fileSettings>
+    <folderPath>C:\Users\Dell\Desktop\newpython\test</folderPath>
+    <outputFolder>C:\Users\Dell\Desktop\AS c#\his\</outputFolder>
+	  <logPath>C:\Users\Dell\Desktop\AS c#\log\</logPath>
+  </fileSettings>
+</Configuration>
