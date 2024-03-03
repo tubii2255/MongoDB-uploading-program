@@ -19,28 +19,27 @@ namespace Jsonfilemoving
         private string collectionName2;
         private string coll;
         private string databaseName;
-
+        private string message;
+        string connectionString;
         public void Sends()
         {
-            string message = "";
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("Config.xml");
 
             XmlNode mongoSettingsNode = xmlDoc.SelectSingleNode("/Configuration/mongoSettings");
-
-            string connectionString = mongoSettingsNode.SelectSingleNode("connectionString").InnerText;
-
-
-            collectionName = mongoSettingsNode.SelectSingleNode("collectionName").InnerText;
+            connectionString = mongoSettingsNode.SelectSingleNode("connectionString").InnerText;
+            collectionName  = mongoSettingsNode.SelectSingleNode("collectionName").InnerText;
             collectionName1 = mongoSettingsNode.SelectSingleNode("collectionName1").InnerText;
             collectionName2 = mongoSettingsNode.SelectSingleNode("collectionName2").InnerText;
-            
+            databaseName    = mongoSettingsNode.SelectSingleNode("databaseName").InnerText;
+             
 
             XmlNode fileSettingsNode = xmlDoc.SelectSingleNode("/Configuration/fileSettings");
-            string folderPath = fileSettingsNode.SelectSingleNode("folderPath").InnerText;
-            string outputFolder = fileSettingsNode.SelectSingleNode("outputFolder").InnerText;
+            string folderPath        = fileSettingsNode.SelectSingleNode("folderPath").InnerText;
+            string outputFolder      = fileSettingsNode.SelectSingleNode("outputFolder").InnerText;
 
             var client = new MongoClient(connectionString);
+            var database = client.GetDatabase(databaseName);
 
             string[] jsonFiles = Directory.GetFiles(folderPath, "*.json");
 
@@ -49,8 +48,7 @@ namespace Jsonfilemoving
                 string fileName = Path.GetFileName(jsonFile);
                 string jsonString = File.ReadAllText(jsonFile);
                 JObject jsonObject = JObject.Parse(jsonString);
-                databaseName = (string)jsonObject.SelectToken("site.SiteCode");
-                var database = client.GetDatabase(databaseName);
+                //databaseName = (string)jsonObject.SelectToken("site.SiteCode");
 
                 coll = collectiona(fileName);
 
@@ -97,7 +95,6 @@ namespace Jsonfilemoving
             }
         }
 
-        // Corrected method signature to match the parameter name
         public string collectiona(string fileName)
         {
             string coll;
